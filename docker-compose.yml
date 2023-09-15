@@ -38,7 +38,7 @@ services:
       - STATS_SERVER_URL=http://stats-server:9090
       - SPRING_DATASOURCE_URL=jdbc:postgresql://ewm-db:5432/ewm-db
       - POSTGRES_USER=ewm_user
-      - POSTGRES_PASS=ewm_pass_service
+      - POSTGRES_PASS=ewm_pass
 
   ewm-db:
     image: postgres:13.7-alpine
