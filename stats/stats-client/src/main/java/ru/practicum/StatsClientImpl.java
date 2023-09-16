@@ -20,11 +20,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StatsClientImpl implements StatsClient {
 
-    private final String url = "http://localhost:9090";
+    private final WebClient webClient;
 
-    private final WebClient webClient = WebClient.builder()
-            .baseUrl(url)
-            .build();
+    public StatsClientImpl(String serverUrl) {
+        webClient = WebClient.builder().baseUrl(serverUrl).build();
+    }
 
     @Override
     public void saveEndpoint(String app, String uri, String ip, LocalDateTime timestamp) {
