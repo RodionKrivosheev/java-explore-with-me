@@ -20,8 +20,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StatsClientImpl implements StatsClient {
 
+    private final String url = "http://localhost:9090";
+
     private final WebClient webClient = WebClient.builder()
-            .baseUrl("http://localhost:9090")
+            .baseUrl(url)
             .build();
 
     @Override
