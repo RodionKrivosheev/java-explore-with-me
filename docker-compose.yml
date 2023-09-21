@@ -19,6 +19,7 @@ services:
     depends_on:
       - stats-db
     environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:9091
       - SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/stats-db
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
@@ -47,5 +48,5 @@ services:
       - "6541:5432"
     environment:
       - POSTGRES_DB=ewm-db
-      - POSTGRES_USER=test
-      - POSTGRES_PASSWORD=test
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
