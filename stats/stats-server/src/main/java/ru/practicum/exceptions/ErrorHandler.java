@@ -22,9 +22,9 @@ public class ErrorHandler {
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
     @ResponseStatus(BAD_REQUEST)
-    public ApiModelError handleValidationException(MethodArgumentNotValidException e) {
+    public ApiError handleValidationException(MethodArgumentNotValidException e) {
         log.debug(e.toString());
-        return ApiModelError.builder()
+        return ApiError.builder()
                 .errors(Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.toList()))
                 .status(BAD_REQUEST)
                 .reason("Incorrectly made request.")
@@ -36,9 +36,9 @@ public class ErrorHandler {
 
     @ExceptionHandler({NonTransientDataAccessException.class})
     @ResponseStatus(CONFLICT)
-    public ApiModelError handleNonTransientDataAccessException(final NonTransientDataAccessException e) {
+    public ApiError handleNonTransientDataAccessException(final NonTransientDataAccessException e) {
         log.debug(e.toString());
-        return ApiModelError.builder()
+        return ApiError.builder()
                 .errors(Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.toList()))
                 .message(e.getCause().getMessage())
                 .reason(NestedExceptionUtils.getMostSpecificCause(e).getMessage())
@@ -50,9 +50,9 @@ public class ErrorHandler {
 
     @ExceptionHandler({ServerWebInputException.class})
     @ResponseStatus(BAD_REQUEST)
-    public ApiModelError handleServerWebInputException(final ServerWebInputException e) {
+    public ApiError handleServerWebInputException(final ServerWebInputException e) {
         log.debug(e.toString());
-        return ApiModelError.builder()
+        return ApiError.builder()
                 .errors(Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.toList()))
                 .message(e.getMessage())
                 .reason(e.getReason())
@@ -63,8 +63,8 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(BAD_REQUEST)
-    public ApiModelError handleValidationException(ValidationException e) {
-        return ApiModelError.builder()
+    public ApiError handleValidationException(ValidationException e) {
+        return ApiError.builder()
                 .errors(Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.toList()))
                 .status(BAD_REQUEST)
                 .reason("Incorrectly made request.")

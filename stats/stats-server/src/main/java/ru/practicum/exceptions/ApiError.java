@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ApiModelError {
+public class ApiError {
     private List<String> errors;
     private String message;
     private String reason;
