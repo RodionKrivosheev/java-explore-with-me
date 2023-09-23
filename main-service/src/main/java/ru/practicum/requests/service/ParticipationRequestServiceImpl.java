@@ -40,7 +40,7 @@ public class ParticipationRequestServiceImpl implements ParticipationRequestServ
 
         checkBeforeCreate(event, userId);
 
-        log.info("Создаем запрос от user с id={} к событию с id={}", userId, eventId);
+        log.info("Создание request по user с id={} для event с id={}", userId, eventId);
         ParticipationRequest participationRequest = ParticipationRequest.builder()
                 .event(event)
                 .requester(user)
@@ -61,7 +61,7 @@ public class ParticipationRequestServiceImpl implements ParticipationRequestServ
     public ParticipationRequestDto cancelRequest(Long userId, Long requestId) {
         userService.userExists(userId);
 
-        log.info("Отменяем запрос с id={}", requestId);
+        log.info(" Отмена request с id={}", requestId);
         ParticipationRequest participationRequest = participationRequestRepository.findById(requestId)
                 .orElseThrow(() -> new NotFoundException("Request", requestId));
 
@@ -77,27 +77,27 @@ public class ParticipationRequestServiceImpl implements ParticipationRequestServ
     public List<ParticipationRequestDto> getAllRequestsByUserId(Long userId) {
         userService.userExists(userId);
 
-        log.info("Получаем все запросы от user с id={}", userId);
+        log.info("Получаем все requests по user с id={}", userId);
         List<ParticipationRequest> requests = participationRequestRepository.findAllByRequesterId(userId);
         return ParticipationRequestMapper.toRequestDto(requests);
     }
 
     private void checkBeforeCreate(Event event, Long userId) {
         if (participationRequestRepository.findByRequesterIdAndEventId(userId, event.getId()) != null) {
-            throw new ConflictException("You can't add a repeat request.");
+            throw new ConflictException("Вы не можете добавить повторяющийся request.");
         }
 
         if (event.getInitiator().getId().equals(userId)) {
-            throw new ConflictException("The initiator of the event cannot add a request to participate in his event");
+            throw new ConflictException("Инициатор мероприятия не может добавить заявку на участие в своем мероприятии");
         }
 
         if (event.getState() != PUBLISHED) {
-            throw new ConflictException("You can't participate in an unpublished event");
+            throw new ConflictException("Вы не можете участвовать в неопубликованном мероприятии");
         }
 
         Long confirmedCount = participationRequestRepository.countByEventIdAndStatus(event.getId(), CONFIRMED);
         if (event.getParticipantLimit() != 0 && confirmedCount >= event.getParticipantLimit()) {
-            throw new ConflictException("Reach participant limit.");
+            throw new ConflictException("Достигнут лимит участников");
         }
     }
 }

@@ -17,7 +17,7 @@ import ru.practicum.events.model.entity.Event;
 import ru.practicum.events.repository.EventRepository;
 import ru.practicum.exceptions.ConflictException;
 import ru.practicum.exceptions.NotFoundException;
-import ru.practicum.exceptions.ValidationException;
+import ru.practicum.exceptions.ValidationRequestException;
 import ru.practicum.location.LocationService;
 import ru.practicum.location.model.entity.Location;
 import ru.practicum.requests.model.ParticipationRequest;
@@ -52,7 +52,7 @@ public class EventServiceImpl implements EventService {
         Event event = EventMapper.toEvent(newEventDto);
 
         if (event.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
-            throw new ValidationException("Event date must not be before 2 hours from current time.");
+            throw new ValidationRequestException("Event date must not be before 2 hours from current time.");
         }
 
         Category category = categoryService.getCategoryModelById(newEventDto.getCategory());
@@ -65,7 +65,7 @@ public class EventServiceImpl implements EventService {
         event.setState(EventState.PENDING);
         event.setLocation(location);
 
-        log.info("Создание event with body={}", newEventDto);
+        log.info("Creating event with body={}", newEventDto);
         Event savedEvent = eventRepository.save(event);
 
         EventFullDto eventFullDto = EventMapper.toEventFullDto(savedEvent);
@@ -83,7 +83,7 @@ public class EventServiceImpl implements EventService {
         Event event = eventRepository.findById(eventId).orElseThrow(() ->
                 new NotFoundException("Event", eventId));
 
-        log.info("Обновление event with id={} with data={}", eventId, updateEventUserRequest);
+        log.info("Updating event with id={} with data={}", eventId, updateEventUserRequest);
 
         if (event.getState() != null && event.getState() != EventState.PENDING && event.getState() != EventState.CANCELED) {
             throw new ConflictException("Only pending or canceled events can be changed");
@@ -91,7 +91,7 @@ public class EventServiceImpl implements EventService {
 
         if (updateEventUserRequest.getEventDate() != null
                 && updateEventUserRequest.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
-            throw new ValidationException("Event date must not be before 2 hours from current time.");
+            throw new ValidationRequestException("Event date must not be before 2 hours from current time.");
         }
 
         if (updateEventUserRequest.getTitle() != null) {
@@ -146,11 +146,11 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public EventFullDto updateEventByAdmin(Long eventId, UpdateEventAdminRequest updateEventAdminRequest) {
-        log.info("Обновление event with id={} with body={}", eventId, updateEventAdminRequest.toString());
+        log.info("Updating event with id={} with body={}", eventId, updateEventAdminRequest.toString());
         Event event = getEventModelById(eventId);
 
         if (event.getEventDate().isBefore(LocalDateTime.now().plusHours(1))) {
-            throw new ValidationException("The start date of the edited event must be no earlier than one hour from the date of publication");
+            throw new ValidationRequestException("The start date of the edited event must be no earlier than one hour from the date of publication");
         }
 
         if (updateEventAdminRequest.getStateAction() != null) {
@@ -172,7 +172,7 @@ public class EventServiceImpl implements EventService {
 
         if (updateEventAdminRequest.getEventDate() != null
                 && updateEventAdminRequest.getEventDate().isBefore(LocalDateTime.now().plusHours(2))) {
-            throw new ValidationException("Event date must not be before 2 hours from current time.");
+            throw new ValidationRequestException("Event date must not be before 2 hours from current time.");
         }
 
         if (updateEventAdminRequest.getAnnotation() != null) {
@@ -287,7 +287,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<EventShortDto> getAllEventsByUserId(Long userId, Integer from, Integer size) {
-        log.info("Получение всех events by user with id={}", userId);
+        log.info("Getting all events by user with id={}", userId);
         SizeValidator.validateSize(size);
         Pageable pageable = OffsetPageRequest.of(from, size);
 
@@ -310,7 +310,7 @@ public class EventServiceImpl implements EventService {
     public EventFullDto getEventById(Long userId, Long eventId) {
         userService.userExists(userId);
 
-        log.info("Получение event with id={}", eventId);
+        log.info("Getting event with id={}", eventId);
         Event event = getEventModelById(eventId);
         EventFullDto eventFullDto = EventMapper.toEventFullDto(event);
         return toEventFullDtoWithViewsAndConfirmedRequests(eventFullDto, event);
@@ -331,7 +331,7 @@ public class EventServiceImpl implements EventService {
         SizeValidator.validateSize(size);
         Pageable pageable = OffsetPageRequest.of(from, size);
 
-        log.info("Получение events by user ids={}", users);
+        log.info("Getting events by user ids={}", users);
         List<Event> events = eventRepository.findEventsByAdmin(
                 users,
                 states,
@@ -374,7 +374,7 @@ public class EventServiceImpl implements EventService {
         Pageable pageable = OffsetPageRequest.of(from, size);
         checkStartIsBeforeEnd(rangeStart, rangeEnd);
 
-        log.info("Получение events by text={}", text);
+        log.info("Получаем ивент по text={}", text);
         List<Event> events = eventRepository.findPublishedEventsByUser(
                 text,
                 categories,
@@ -412,7 +412,7 @@ public class EventServiceImpl implements EventService {
                     eventShortDtoList.sort(Comparator.comparing(EventShortDto::getViews));
                     break;
                 default:
-                    throw new ValidationException("Parameter sort is not valid");
+                    throw new ValidationRequestException("Параметры сортировки не валидные");
             }
         }
 
@@ -423,7 +423,7 @@ public class EventServiceImpl implements EventService {
     public List<ParticipationRequestDto> getRequests(Long userId, Long eventId) {
         userService.userExists(userId);
 
-        log.info("Получение запросов by user with id={} and event with id={}", userId, eventId);
+        log.info("Получаем requests по user с id={} и event с id={}", userId, eventId);
         List<Event> events = eventRepository.findByIdAndInitiatorId(eventId, userId);
         List<ParticipationRequest> requests = participationRequestRepository.findByEventIn(events);
 
@@ -432,7 +432,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public EventFullDto getEventById(Long eventId, HttpServletRequest request) {
-        log.info("Получение event с id={}", eventId);
+        log.info("Получаем ивент с id={}", eventId);
         statsClient.saveEndpoint("ewm-main-service", request.getRequestURI(), request.getRemoteAddr());
         Event event = getEventModelById(eventId);
 
@@ -503,7 +503,7 @@ public class EventServiceImpl implements EventService {
 
     private void checkStartIsBeforeEnd(LocalDateTime rangeStart, LocalDateTime rangeEnd) {
         if (rangeStart != null && rangeEnd != null && rangeStart.isAfter(rangeEnd)) {
-            throw new ValidationException("Start date later than end date");
+            throw new ValidationRequestException("Время началось позже чем время окончания");
         }
     }
 
@@ -513,7 +513,7 @@ public class EventServiceImpl implements EventService {
                 try {
                     EventState.valueOf(state);
                 } catch (IllegalArgumentException e) {
-                    throw new ValidationException("Wrong states!");
+                    throw new ValidationRequestException("Неверный states!");
                 }
             }
         }

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.dto.EndpointHitDto;
 import ru.practicum.dto.ViewStatsDto;
-import ru.practicum.exceptions.ValidationException;
+import ru.practicum.exceptions.ValidationRequestException;
 import ru.practicum.mapper.EndpointHitMapper;
 import ru.practicum.repository.StatsRepository;
 import ru.practicum.model.EndpointHit;
@@ -40,7 +40,7 @@ public class StatsServiceImpl implements StatsService {
         LocalDateTime endTime = LocalDateTime.parse(URLDecoder.decode(end, StandardCharsets.UTF_8), FORMATTER);
 
         if (startTime.isAfter(endTime)) {
-            throw new ValidationException("Значение старта должно быть раньше значения конца");
+            throw new ValidationRequestException("Значение старта должно быть раньше значения конца");
         }
 
         if (unique) {

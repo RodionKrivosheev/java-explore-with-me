@@ -25,9 +25,9 @@ public class ErrorHandler {
     // 400
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(BAD_REQUEST)
-    public ApiModelError handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    public ApiError handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.debug(e.toString());
-        return ApiModelError.builder()
+        return ApiError.builder()
                 .errors(Arrays.stream(e.getStackTrace())
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
@@ -40,9 +40,9 @@ public class ErrorHandler {
 
     @ExceptionHandler(ServerWebInputException.class)
     @ResponseStatus(BAD_REQUEST)
-    public ApiModelError handleServerWebInputException(final ServerWebInputException e) {
+    public ApiError handleServerWebInputException(final ServerWebInputException e) {
         log.debug(e.toString());
-        return ApiModelError.builder()
+        return ApiError.builder()
                 .errors(Arrays.stream(e.getStackTrace())
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
@@ -55,9 +55,9 @@ public class ErrorHandler {
 
     @ExceptionHandler(MissingServletRequestParameterException.class)
     @ResponseStatus(BAD_REQUEST)
-    public ApiModelError handleMissingServletRequestParameterException(final MissingServletRequestParameterException e) {
+    public ApiError handleMissingServletRequestParameterException(final MissingServletRequestParameterException e) {
         log.debug(e.toString());
-        return ApiModelError.builder()
+        return ApiError.builder()
                 .errors(Arrays.stream(e.getStackTrace())
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
@@ -70,8 +70,8 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(BAD_REQUEST)
-    public ApiModelError handleValidationException(ValidationException e) {
-        return ApiModelError.builder()
+    public ApiError handleValidationException(ValidationRequestException e) {
+        return ApiError.builder()
                 .errors(Arrays.stream(e.getStackTrace())
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
@@ -85,8 +85,8 @@ public class ErrorHandler {
     // 404
     @ExceptionHandler({NoSuchElementException.class})
     @ResponseStatus(NOT_FOUND)
-    public ApiModelError handleNoSuchElementException(final NoSuchElementException e) {
-        return ApiModelError.builder()
+    public ApiError handleNoSuchElementException(final NoSuchElementException e) {
+        return ApiError.builder()
                 .errors(Arrays.stream(e.getStackTrace())
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
@@ -99,9 +99,9 @@ public class ErrorHandler {
 
     @ExceptionHandler(NotFoundException.class)
     @ResponseStatus(NOT_FOUND)
-    public ApiModelError handleNotFound(final NotFoundException e) {
+    public ApiError handleNotFound(final NotFoundException e) {
         log.debug(e.toString());
-        return ApiModelError.builder()
+        return ApiError.builder()
                 .errors(Arrays.stream(e.getStackTrace())
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
@@ -115,9 +115,9 @@ public class ErrorHandler {
     // 409
     @ExceptionHandler
     @ResponseStatus(CONFLICT)
-    public ApiModelError handleConflictException(ConflictException e) {
+    public ApiError handleConflictException(ConflictException e) {
         log.debug(e.toString());
-        return ApiModelError.builder()
+        return ApiError.builder()
                 .errors(Arrays.stream(e.getStackTrace())
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
@@ -130,9 +130,9 @@ public class ErrorHandler {
 
     @ExceptionHandler(NonTransientDataAccessException.class)
     @ResponseStatus(CONFLICT)
-    public ApiModelError handleNonTransientDataAccessException(final NonTransientDataAccessException e) {
+    public ApiError handleNonTransientDataAccessException(final NonTransientDataAccessException e) {
         log.debug(e.toString());
-        return ApiModelError.builder()
+        return ApiError.builder()
                 .errors(Arrays.stream(e.getStackTrace())
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))
@@ -146,8 +146,8 @@ public class ErrorHandler {
     // 500
     @ExceptionHandler({Exception.class})
     @ResponseStatus(INTERNAL_SERVER_ERROR)
-    public ApiModelError handleException(final Exception e) {
-        return ApiModelError.builder()
+    public ApiError handleException(final Exception e) {
+        return ApiError.builder()
                 .errors(Arrays.stream(e.getStackTrace())
                         .map(StackTraceElement::toString)
                         .collect(Collectors.toList()))

@@ -34,8 +34,8 @@ public class EventControllerPublic {
                                                     @RequestParam(defaultValue = "0") Integer from,
                                                     @RequestParam(defaultValue = "10") Integer size,
                                                     HttpServletRequest request) {
-        log.info("Запрос GET для '/events' чтобы получить все события с параметрами: text={}, categories={}, " +
-                        "paid={}, rangeStart={}, rangeEnd={}, onlyAvailable={}, sort={}, from={}, size={}",
+        log.info("GET '/events' получить все ивенты с параметрами: text={}, categories={}, " +
+                "paid={}, rangeStart={}, rangeEnd={}, onlyAvailable={}, sort={}, from={}, size={}",
                 text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size);
         return eventService.getEventsByParams(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, request);
     }
@@ -44,7 +44,7 @@ public class EventControllerPublic {
     @ResponseStatus(HttpStatus.OK)
     public EventFullDto getEventById(@PathVariable Long eventId,
                                      HttpServletRequest request) {
-        log.info("Запрос GET для '/events/{}' чтобы получить событие с id={}", eventId, eventId);
+        log.info("GET at '/events/{}' получить ивент с id={}", eventId, eventId);
         return eventService.getEventById(eventId, request);
     }
 

@@ -23,14 +23,14 @@ public class CategoryControllerAdmin {
     @PostMapping("/admin/categories")
     @ResponseStatus(HttpStatus.CREATED)
     public CategoryDto createCategory(@Valid @RequestBody NewCategoryDto newCategoryDto) {
-        log.info("Запрос POST для '/admin/categories' создает категорию с параметром body={}", newCategoryDto.toString());
+        log.info("POST '/admin/categories' создает категорию с body={}", newCategoryDto.toString());
         return categoryService.createCategory(newCategoryDto);
     }
 
     @DeleteMapping("/admin/categories/{catId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable Long catId) {
-        log.info("Запрос DELETE для '/admin/categories/{}' удаляет категорию с параметром id={}", catId, catId);
+        log.info("DELETE '/admin/categories/{}' удаляет категорию с id={}", catId, catId);
         categoryService.deleteCategory(catId);
     }
 
@@ -38,7 +38,7 @@ public class CategoryControllerAdmin {
     @ResponseStatus(HttpStatus.OK)
     public CategoryDto updateCategory(@PathVariable Long catId,
                                       @Valid @RequestBody CategoryDto categoryDto) {
-        log.info("Запрос PATCH для '/admin/categories/{}' обновляет категорию с параметром body={}", catId, categoryDto.toString());
+        log.info("PATCH '/admin/categories/{}' обновляет категорию с body={}", catId, categoryDto.toString());
         return categoryService.updateCategory(catId, categoryDto);
     }
 }

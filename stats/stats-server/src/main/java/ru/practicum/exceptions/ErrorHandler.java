@@ -63,7 +63,7 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(BAD_REQUEST)
-    public ApiError handleValidationException(ValidationException e) {
+    public ApiError handleValidationException(ValidationRequestException e) {
         return ApiError.builder()
                 .errors(Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.toList()))
                 .status(BAD_REQUEST)
