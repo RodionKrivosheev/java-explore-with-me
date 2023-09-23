@@ -1,44 +1,75 @@
 package ru.practicum.exceptions;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
+import org.springframework.core.NestedExceptionUtils;
+import org.springframework.dao.NonTransientDataAccessException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ServerWebInputException;
 
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
+import static org.springframework.http.HttpStatus.CONFLICT;
 
 @Slf4j
 @RestControllerAdvice
 public class ErrorHandler {
-    private static final String ERROR = "error";
 
-    @ExceptionHandler({Exception.class})
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public Map<String, String> handleException(final Exception e) {
-        log.warn("Произошла непредвиденная ошибка. Подробности ошибки: {}.", e.getMessage());
-        return Map.of(ERROR, e.getMessage());
+    @ExceptionHandler({MethodArgumentNotValidException.class})
+    @ResponseStatus(BAD_REQUEST)
+    public ApiError handleValidationException(MethodArgumentNotValidException e) {
+        log.debug(e.toString());
+        return ApiError.builder()
+                .errors(Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.toList()))
+                .status(BAD_REQUEST)
+                .reason("Incorrectly made request.")
+                .message(e.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build();
     }
 
-    @ExceptionHandler({NoSuchElementException.class})
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public Map<String, String> handleNoSuchElementException(final NoSuchElementException e) {
-        log.warn("Запрошенный объект не найден. Подробности ошибки: {}.", e.getMessage());
-        return Map.of(ERROR, e.getMessage());
+
+    @ExceptionHandler({NonTransientDataAccessException.class})
+    @ResponseStatus(CONFLICT)
+    public ApiError handleNonTransientDataAccessException(final NonTransientDataAccessException e) {
+        log.debug(e.toString());
+        return ApiError.builder()
+                .errors(Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.toList()))
+                .message(e.getCause().getMessage())
+                .reason(NestedExceptionUtils.getMostSpecificCause(e).getMessage())
+                .status(CONFLICT)
+                .timestamp(LocalDateTime.now())
+                .build();
     }
 
-    @ExceptionHandler({IllegalArgumentException.class})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> handleIllegalArgumentEx(final RuntimeException e) {
-        log.warn("Неверное значение. Подробности ошибки: {}.", e.getMessage());
-        return Map.of(ERROR, e.getMessage());
+
+    @ExceptionHandler({ServerWebInputException.class})
+    @ResponseStatus(BAD_REQUEST)
+    public ApiError handleServerWebInputException(final ServerWebInputException e) {
+        log.debug(e.toString());
+        return ApiError.builder()
+                .errors(Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.toList()))
+                .message(e.getMessage())
+                .reason(e.getReason())
+                .status(BAD_REQUEST)
+                .timestamp(LocalDateTime.now())
+                .build();
     }
 
-    @ExceptionHandler({StartIsAfterEndException.class})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Map<String, String> handleStartIsAfterEndException(final RuntimeException e) {
-        log.warn("Значение старта должно быть раньше значения конца. Подробности ошибки: {}.", e.getMessage());
-        return Map.of(ERROR, e.getMessage());
+    @ExceptionHandler
+    @ResponseStatus(BAD_REQUEST)
+    public ApiError handleValidationException(ValidationRequestException e) {
+        return ApiError.builder()
+                .errors(Arrays.stream(e.getStackTrace()).map(StackTraceElement::toString).collect(Collectors.toList()))
+                .status(BAD_REQUEST)
+                .reason("Incorrectly made request.")
+                .message(e.getMessage())
+                .timestamp(LocalDateTime.now())
+                .build();
     }
 }
