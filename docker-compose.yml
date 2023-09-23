@@ -23,7 +23,7 @@ services:
       - POSTGRES_USER=stats
       - POSTGRES_PASSWORD=stats
 
-  ewm-service:
+  main-service:
     build: main-service
     image: main-service
     container_name: main-service
@@ -38,7 +38,7 @@ services:
       - POSTGRES_USER=ewm
       - POSTGRES_PASS=ewm
 
-  ewm-db:
+  main-db:
     image: postgres:13.7-alpine
     container_name: main-db
     ports:
