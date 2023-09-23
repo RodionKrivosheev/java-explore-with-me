@@ -27,14 +27,14 @@ public class CategoryControllerPublic {
     public List<CategoryDto> getAllCategories(
             @Valid @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
             @Valid @Positive @RequestParam(defaultValue = "10") Integer size) {
-        log.info("Запрос GET для '/categories' чтобы получить все категории с параметрами: from={}, size={}", from, size);
+        log.info("GET '/categories' получает все категории с параметрами: from={}, size={}", from, size);
         return categoryService.getAllCategories(from, size);
     }
 
     @GetMapping("/categories/{catId}")
     @ResponseStatus(HttpStatus.OK)
     public CategoryDto getCategoryById(@PathVariable Long catId) {
-        log.info("Запрос GET для '/categories/{}' чтобы получить категорию с помощью id={}", catId, catId);
+        log.info("GET '/categories/{}' получает категорию с id={}", catId, catId);
         return categoryService.getCategoryById(catId);
     }
 }

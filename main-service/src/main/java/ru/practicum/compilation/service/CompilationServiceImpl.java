@@ -30,7 +30,7 @@ public class CompilationServiceImpl implements CompilationService {
     @Override
     @Transactional
     public CompilationDto createCompilation(NewCompilationDto newCompilationDto) {
-        log.info("Создаем компиляцию с body={}", newCompilationDto.toString());
+        log.info("Creating compilation with body={}", newCompilationDto.toString());
         Compilation compilation = CompilationMapper.toCompilation(newCompilationDto);
 
         if (newCompilationDto.getEvents() != null) {
@@ -52,7 +52,7 @@ public class CompilationServiceImpl implements CompilationService {
             compilations = compilationRepository.findAll(pageable).toList();
         }
 
-        log.info("Получаем компиляции с параметрами: pinned={}, from={}, size={}", pinned, from, size);
+        log.info("Getting compilations by params: pinned={}, from={}, size={}", pinned, from, size);
         return CompilationMapper.toCompilationDto(compilations);
     }
 
@@ -60,13 +60,13 @@ public class CompilationServiceImpl implements CompilationService {
     public CompilationDto getCompilationById(Long id) {
         Compilation compilation = getCompilationModelById(id);
 
-        log.info("Получаем компиляцию с помощью id={}", id);
+        log.info("Getting compilation by id={}", id);
         return CompilationMapper.toCompilationDto(compilation);
     }
 
     @Override
     public Compilation getCompilationModelById(Long id) {
-        log.info("Получаем модель компиляции с id={}", id);
+        log.info("Getting compilation model by id={}", id);
 
         return compilationRepository.findById(id).orElseThrow(() ->
                 new NotFoundException("Compilation", id));
@@ -77,7 +77,7 @@ public class CompilationServiceImpl implements CompilationService {
     public CompilationDto updateCompilation(Long id, UpdateCompilationRequest updateCompilationRequest) {
         Compilation compilation = getCompilationModelById(id);
 
-        log.info("Обновляем компиляцию с body={}", updateCompilationRequest.toString());
+        log.info("Updating compilation with body={}", updateCompilationRequest.toString());
 
         if (updateCompilationRequest.getEvents() != null) {
             compilation.setEvents(eventRepository.findEventByIdIn(updateCompilationRequest.getEvents()));
@@ -99,13 +99,13 @@ public class CompilationServiceImpl implements CompilationService {
     public void deleteCompilation(Long id) {
         compilationExists(id);
 
-        log.info("Удаляем компиляцию с id={}", id);
+        log.info("Deleting compilation by id={}", id);
         compilationRepository.deleteById(id);
     }
 
     @Override
     public void compilationExists(Long id) {
-        log.info("Проверяем существует ли компиляция с id={}", id);
+        log.info("Checking that compilation with id={} exists", id);
 
         if (!compilationRepository.existsById(id)) {
             throw new NotFoundException("Compilation", id);

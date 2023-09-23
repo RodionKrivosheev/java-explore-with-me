@@ -27,7 +27,7 @@ public class CompilationControllerPublic {
     public List<CompilationDto> getCompilations(@RequestParam(required = false) Boolean pinned,
                                                 @Valid @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
                                                 @Valid @Positive @RequestParam(defaultValue = "10") Integer size) {
-        log.info("Запрос GET для '/compilations' чтобы получить все компиляции с параметрами: pinned={}, from={}, size={}",
+        log.info("GET '/compilations' получить все компиляции с параметрами: pinned={}, from={}, size={}",
                 pinned, from, size);
         return compilationService.getCompilationsByPinned(pinned, from, size);
     }
@@ -35,7 +35,7 @@ public class CompilationControllerPublic {
     @GetMapping("/compilations/{compId}")
     @ResponseStatus(HttpStatus.OK)
     public CompilationDto getCompilationById(@PathVariable Long compId) {
-        log.info("Запрос GET для '/compilations/{}' чтобы получить компиляцию с id={}", compId, compId);
+        log.info("GET '/compilations/{}' получить все компиляции с id={}", compId, compId);
         return compilationService.getCompilationById(compId);
     }
 }

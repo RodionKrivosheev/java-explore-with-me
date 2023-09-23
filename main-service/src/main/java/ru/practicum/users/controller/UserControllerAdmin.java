@@ -26,7 +26,7 @@ public class UserControllerAdmin {
     @PostMapping("/admin/users")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto createUser(@Valid @RequestBody NewUserRequest newUserRequest) {
-        log.info("Запрос POST для '/admin/users' чтобы создать user с body={}", newUserRequest.toString());
+        log.info("POST '/admin/users' создание user с body={}", newUserRequest.toString());
         return userService.createUser(newUserRequest);
     }
 
@@ -36,7 +36,7 @@ public class UserControllerAdmin {
             @RequestParam(required = false) List<Long> ids,
             @Valid @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
             @Valid @Positive @RequestParam(defaultValue = "10") Integer size) {
-        log.info("Запрос GET для '/admin/users' чтобы получить всех users с параметрами: ids={}, from={}, size={}",
+        log.info("GET at '/admin/users' получить все users с параметрами: ids={}, from={}, size={}",
                 ids, from, size);
         return userService.getUsersByIds(ids, from, size);
     }
@@ -44,7 +44,7 @@ public class UserControllerAdmin {
     @DeleteMapping("/admin/users/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUserById(@PathVariable Long userId) {
-        log.info("Запрос DELETE для '/admin/users/{}' чтобы удалить user с id={}", userId, userId);
+        log.info("DELETE at '/admin/users/{}' удаление user с id={}", userId, userId);
         userService.deleteUser(userId);
     }
 }

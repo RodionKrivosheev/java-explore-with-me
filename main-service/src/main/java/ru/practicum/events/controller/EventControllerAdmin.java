@@ -31,7 +31,7 @@ public class EventControllerAdmin {
             @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") LocalDateTime rangeEnd,
             @RequestParam(defaultValue = "0") Integer from,
             @RequestParam(defaultValue = "10") Integer size) {
-        log.info("Запрос GET для '/admin/events' чтобы получить все события с параметрами: users={}, states={}, categories={}, rangeStart={}, rangeEnd={}, from={}, size={}",
+        log.info("GET '/admin/events' получаем все ивенты с параметрами : users={}, states={}, categories={}, rangeStart={}, rangeEnd={}, from={}, size={}",
                 users, states, categories, rangeStart, rangeEnd, from, size);
         return eventService.getEventsByUserIds(users, states, categories, rangeStart, rangeEnd, from, size);
     }
@@ -39,8 +39,8 @@ public class EventControllerAdmin {
     @PatchMapping("/admin/events/{eventId}")
     @ResponseStatus(HttpStatus.OK)
     public EventFullDto updateEvent(@PathVariable Long eventId,
-                                    @Valid @RequestBody UpdateEventAdminRequest updateEventAdminRequest) {
-        log.info("Запрос UPDATE для '/admin/events/{}' чтобы обновить все события с id={} с body={}", eventId, eventId, updateEventAdminRequest.toString());
+                               @Valid @RequestBody UpdateEventAdminRequest updateEventAdminRequest) {
+        log.info("UPDATE '/admin/events/{}' обновляем ивенты с id={} и body={}", eventId, eventId, updateEventAdminRequest.toString());
         return eventService.updateEventByAdmin(eventId, updateEventAdminRequest);
     }
 }

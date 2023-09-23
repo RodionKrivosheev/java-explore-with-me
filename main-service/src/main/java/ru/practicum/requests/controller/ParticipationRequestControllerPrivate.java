@@ -22,7 +22,7 @@ public class ParticipationRequestControllerPrivate {
     @GetMapping("/users/{userId}/requests")
     @ResponseStatus(HttpStatus.OK)
     public List<ParticipationRequestDto> getAll(@PathVariable Long userId) {
-        log.info("Запрос GET для '/users/{userId}/requests' чтобы получить все запросы user с id={}", userId);
+        log.info("GET '/users/{userId}/requests' получаем все requests по user с id={}", userId);
         return requestService.getAllRequestsByUserId(userId);
     }
 
@@ -30,7 +30,7 @@ public class ParticipationRequestControllerPrivate {
     @ResponseStatus(HttpStatus.CREATED)
     public ParticipationRequestDto create(@PathVariable Long userId,
                                           @Valid @Positive @RequestParam Long eventId) {
-        log.info("Запрос POST для '/users/{}/requests' чтобы создать запрос от user с id={} для события с id={}", userId, userId, eventId);
+        log.info("POST '/users/{}/requests' создаем request из user с id={} и event с id={}", userId, userId, eventId);
         return requestService.createRequest(userId, eventId);
     }
 
@@ -38,7 +38,7 @@ public class ParticipationRequestControllerPrivate {
     @ResponseStatus(HttpStatus.OK)
     public ParticipationRequestDto cancel(@PathVariable Long userId,
                                           @PathVariable Long requestId) {
-        log.info("Запрос PATCH для '/users/{}/requests/{}/cancel' чтобы отменить запрос с id={} от user с id={}", userId, requestId, requestId, userId);
+        log.info("PATCH '/users/{}/requests/{}/cancel' отмена request с id={} по user с id={}", userId, requestId, requestId, userId);
         return requestService.cancelRequest(userId, requestId);
     }
 }

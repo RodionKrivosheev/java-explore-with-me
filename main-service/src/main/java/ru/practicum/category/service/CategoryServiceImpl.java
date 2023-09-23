@@ -31,7 +31,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional
     public CategoryDto createCategory(NewCategoryDto newCategoryDto) {
-        log.info("Создается категория с параметром body={}", newCategoryDto.toString());
+        log.info("Создаем категории с body={}", newCategoryDto.toString());
         Category category = CategoryMapper.toCategory(newCategoryDto);
         return CategoryMapper.toCategoryDto(categoryRepository.save(category));
     }
@@ -41,7 +41,7 @@ public class CategoryServiceImpl implements CategoryService {
         SizeValidator.validateSize(size);
         Pageable pageable = OffsetPageRequest.of(from, size);
 
-        log.info("Получение всех категорий: from={}, size={}", from, size);
+        log.info("Получаем все категории: from={}, size={}", from, size);
         List<Category> categories = categoryRepository.findAll(pageable).getContent();
 
         return CategoryMapper.toCategoryDto(categories);
@@ -49,7 +49,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryDto getCategoryById(Long id) {
-        log.info("Получение категории для id={}", id);
+        log.info("Получаем категории по id={}", id);
         Category category = getCategoryModelById(id);
         return CategoryMapper.toCategoryDto(category);
     }
@@ -65,7 +65,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryDto updateCategory(Long id, CategoryDto categoryDto) {
         Category category = getCategoryModelById(id);
 
-        log.info("Обновление категории с помощью id={}", id);
+        log.info("Обновляем категории с id={}", id);
         category.setName(categoryDto.getName());
         return CategoryMapper.toCategoryDto(category);
     }
@@ -77,16 +77,16 @@ public class CategoryServiceImpl implements CategoryService {
         Event event = eventRepository.findFirstByCategoryId(id);
 
         if (event != null) {
-            throw new ConflictException("The category is not empty.");
+            throw new ConflictException("Категория не пустая.");
         }
 
-        log.info("Удаление категории с помощью id={}", id);
+        log.info("Перезаписываем категорию с id={}", id);
         categoryRepository.deleteById(id);
     }
 
     @Override
     public void categoryExists(Long id) {
-        log.info("Проверка существования категории с помощью id={}", id);
+        log.info("Проверяем категорию с id={} exists", id);
 
         if (!categoryRepository.existsById(id)) {
             throw new NotFoundException("Category", id);

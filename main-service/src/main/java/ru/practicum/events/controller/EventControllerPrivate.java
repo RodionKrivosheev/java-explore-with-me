@@ -26,7 +26,7 @@ public class EventControllerPrivate {
     public List<EventShortDto> getAllEventsByUserId(@PathVariable Long userId,
                                                     @Valid @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
                                                     @Valid @Positive @RequestParam(defaultValue = "10") Integer size) {
-        log.info("Запрос GET для '/users/{}/events' чтобы получить все события user с id={}", userId, userId);
+        log.info("GET '/users/{}/events' получаем все ивенты по юзеру с id={}", userId, userId);
         return eventService.getAllEventsByUserId(userId, from, size);
     }
 
@@ -34,7 +34,7 @@ public class EventControllerPrivate {
     @ResponseStatus(HttpStatus.CREATED)
     public EventFullDto createEvent(@PathVariable Long userId,
                                     @Valid @RequestBody NewEventDto newEventDto) {
-        log.info("Запрос POST для '/users/{}/events' чтобы создать событие с body={} " +
+        log.info("POST '/users/{}/events' создаем новый ивент с body={} " +
                 "from user with id={}", userId, newEventDto.toString(), userId);
         return eventService.createEvent(userId, newEventDto);
     }
@@ -43,7 +43,7 @@ public class EventControllerPrivate {
     @ResponseStatus(HttpStatus.OK)
     public EventFullDto getEventById(@PathVariable Long userId,
                                      @PathVariable Long eventId) {
-        log.info("Запрос GET для '/users/{}/events/{}' чтобы получить событие с помощью id={}", userId, eventId, eventId);
+        log.info("GET '/users/{}/events/{}' получаем ивент по id={}", userId, eventId, eventId);
         return eventService.getEventById(userId, eventId);
     }
 
@@ -52,7 +52,7 @@ public class EventControllerPrivate {
     public EventFullDto updateEvent(@PathVariable Long userId,
                                     @PathVariable Long eventId,
                                     @Valid @RequestBody UpdateEventUserRequest updateEventUserRequest) {
-        log.info("Запрос PATСH для '/users/{}/events/{}' чтобы обновить событие с body={}",
+        log.info("PATCH at '/users/{}/events/{}' to update event with body={}",
                 userId, eventId, updateEventUserRequest.toString());
         return eventService.updateEventByUser(userId, eventId, updateEventUserRequest);
     }
@@ -61,7 +61,7 @@ public class EventControllerPrivate {
     @ResponseStatus(HttpStatus.OK)
     public List<ParticipationRequestDto> getRequests(@Valid @Positive @PathVariable Long userId,
                                                      @Valid @Positive @PathVariable Long eventId) {
-        log.info("Запрос GET для '/users/{}/events/{}/requests' чтобы получить запросы события с id={}", userId, eventId, eventId);
+        log.info("GET at '/users/{}/events/{}/requests' to get requests by event with id={}", userId, eventId, eventId);
         return eventService.getRequests(userId, eventId);
     }
 
@@ -70,7 +70,7 @@ public class EventControllerPrivate {
     public EventRequestStatusUpdateResult updateRequestStatus(@Valid @Positive @PathVariable Long userId,
                                                               @Valid @Positive @PathVariable Long eventId,
                                                               @Valid @RequestBody EventRequestStatusUpdateRequest eventRequestStatusUpdateRequest) {
-        log.info("Запрос PATCH для '/users/{}/events/{}/requests' чтобы обновить запросы с body={}",
+        log.info("PATCH at '/users/{}/events/{}/requests' to update request with body={}",
                 userId, eventId, eventRequestStatusUpdateRequest.toString());
         return eventService.updateRequestStatus(userId, eventId, eventRequestStatusUpdateRequest);
     }

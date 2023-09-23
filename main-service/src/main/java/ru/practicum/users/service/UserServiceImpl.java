@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public UserDto createUser(NewUserRequest newUserRequest) {
-        log.info("Создаем user с body={}", newUserRequest);
+        log.info("Создание user с body={}", newUserRequest);
 
         User user = UserMapper.toUser(newUserRequest);
         userRepository.save(user);
@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getUsersByIds(List<Long> ids, Integer from, Integer size) {
-        log.info("Получаем users с ids={}", ids);
+        log.info("Получение users с ids={}", ids);
 
         SizeValidator.validateSize(size);
         Pageable pageable = OffsetPageRequest.of(from, size);
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteUser(Long id) {
-        log.info("Удаляем user с id={}", id);
+        log.info("Перезапись user с id={}", id);
 
         userExists(id);
         userRepository.deleteById(id);
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void userExists(Long id) {
-        log.info("Проверяем то что user с id={} существует", id);
+        log.info("Проверка user с id={} exists", id);
 
         if (!userRepository.existsById(id)) {
             throw new NotFoundException("User", id);
@@ -74,7 +74,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserModelById(Long id) {
-        log.info("Получаем модель user с помощью id={}", id);
+        log.info("Получение user модели по id={}", id);
 
         return userRepository.findById(id).orElseThrow(() ->
                 new NotFoundException("User", id));

@@ -15,19 +15,19 @@ public class LocationServiceImpl implements LocationService {
 
     @Override
     public Location getByLatAndLong(Float lat, Float lon) {
-        log.info("Получение location by lat={} and lon={}", lat, lon);
+        log.info("Получение локации по lat={} and lon={}", lat, lon);
         return locationRepository.findFirstByLatAndLon(lat, lon);
     }
 
     @Override
     public Location create(Location location) {
-        log.info("Создание location с body={}", location.toString());
+        log.info("Создание локации по body={}", location.toString());
         return locationRepository.save(location);
     }
 
     @Override
     public Boolean locationExists(Float lat, Float lon) {
-        log.info("Проверка на существование location with lat={} and lon={}", lat, lon);
+        log.info("Проверка что локация с lat={} and lon={} exists", lat, lon);
         return locationRepository.findFirstByLatAndLon(lat, lon) != null;
     }
 

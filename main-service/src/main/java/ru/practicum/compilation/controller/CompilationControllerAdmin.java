@@ -24,7 +24,7 @@ public class CompilationControllerAdmin {
     @PostMapping("/admin/compilations")
     @ResponseStatus(HttpStatus.CREATED)
     public CompilationDto createCompilation(@Valid @RequestBody NewCompilationDto newCompilationDto) {
-        log.info("Запрос POST для '/admin/compilations' чтобы создать компиляцию с body={}", newCompilationDto.toString());
+        log.info("POST '/admin/compilations' создает компиляцию с body={}", newCompilationDto.toString());
         return compilationService.createCompilation(newCompilationDto);
     }
 
@@ -32,7 +32,7 @@ public class CompilationControllerAdmin {
     @ResponseStatus(HttpStatus.OK)
     public CompilationDto updateCompilation(@PathVariable Long compId,
                                             @Valid @RequestBody UpdateCompilationRequest updateCompilationRequest) {
-        log.info("Запрос PATCH для '/admin/compilations/{}' чтобы обновить компиляцию с id={} с body={}",
+        log.info("PATCH '/admin/compilations/{}' обновление компиляции с id={} with body={}",
                 compId, compId, updateCompilationRequest.toString());
         return compilationService.updateCompilation(compId, updateCompilationRequest);
     }
@@ -40,7 +40,7 @@ public class CompilationControllerAdmin {
     @DeleteMapping("/admin/compilations/{compId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCompilation(@PathVariable Long compId) {
-        log.info("Запрос DELETE для '/admin/compilations/{}' чтобы удалить компиляцию с id={}", compId, compId);
+        log.info("DELETE '/admin/compilations/{}'удаление компиляции с id={}", compId, compId);
         compilationService.deleteCompilation(compId);
     }
 }
