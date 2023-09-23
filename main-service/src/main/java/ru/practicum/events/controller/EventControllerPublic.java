@@ -35,7 +35,7 @@ public class EventControllerPublic {
                                                     @RequestParam(defaultValue = "10") Integer size,
                                                     HttpServletRequest request) {
         log.info("Запрос GET для '/events' чтобы получить все события с параметрами: text={}, categories={}, " +
-                "paid={}, rangeStart={}, rangeEnd={}, onlyAvailable={}, sort={}, from={}, size={}",
+                        "paid={}, rangeStart={}, rangeEnd={}, onlyAvailable={}, sort={}, from={}, size={}",
                 text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size);
         return eventService.getEventsByParams(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, request);
     }
