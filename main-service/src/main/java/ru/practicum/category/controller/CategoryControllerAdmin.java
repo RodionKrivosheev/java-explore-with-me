@@ -19,7 +19,6 @@ import javax.validation.Valid;
 public class CategoryControllerAdmin {
 
     private final CategoryService categoryService;
-
     @PostMapping("/admin/categories")
     @ResponseStatus(HttpStatus.CREATED)
     public CategoryDto createCategory(@Valid @RequestBody NewCategoryDto newCategoryDto) {
