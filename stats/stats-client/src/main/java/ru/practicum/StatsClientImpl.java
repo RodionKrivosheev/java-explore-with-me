@@ -22,7 +22,7 @@ import java.util.List;
 @Service
 @PropertySource("classpath:stats-application.properties")
 public class StatsClientImpl implements StatsClient {
-//
+
     private final WebClient webClient;
     private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
