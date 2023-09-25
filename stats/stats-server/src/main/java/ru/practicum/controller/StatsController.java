@@ -9,6 +9,8 @@ import ru.practicum.dto.ViewStatsDto;
 import ru.practicum.service.StatsService;
 
 import javax.validation.Valid;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Slf4j
@@ -26,12 +28,13 @@ public class StatsController {
     }
 
     @GetMapping("/stats")
-    @ResponseStatus(HttpStatus.OK)
-    private List<ViewStatsDto> getStats(@RequestParam String start,
-                                        @RequestParam String end,
-                                        @RequestParam(required = false) List<String> uris,
-                                        @RequestParam(defaultValue = "false") Boolean unique) {
+    private List<ViewStatsDto> getStats(@RequestParam(name = "start") String start,
+                                        @RequestParam(name = "end") String end,
+                                        @RequestParam(name = "uris", required = false) List<String> uris,
+                                        @RequestParam(name = "unique", defaultValue = "false") Boolean unique) {
         log.info("Запрос GET для '/stats' с параметрами start={}, end={}, uris={}, unique={}", start, end, uris, unique);
-        return statsService.getStats(start, end, uris, unique);
+        String decodedStart = URLDecoder.decode(start, StandardCharsets.UTF_8);
+        String decodedEnd = URLDecoder.decode(end, StandardCharsets.UTF_8);
+        return statsService.getStats(decodedStart, decodedEnd, uris, unique);
     }
 }
