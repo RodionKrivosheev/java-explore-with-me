@@ -20,7 +20,7 @@ import java.util.List;
 public class EventControllerAdmin {
 
     private final EventService eventService;
-//
+    ..
     @GetMapping("/admin/events")
     @ResponseStatus(HttpStatus.OK)
     public List<EventFullDto> getEventsByUserIds(
