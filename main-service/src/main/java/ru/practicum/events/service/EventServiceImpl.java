@@ -326,7 +326,6 @@ public class EventServiceImpl implements EventService {
         checkStartIsBeforeEnd(rangeStart, rangeEnd);
         checkStates(states);
 
-        SizeValidator.validateSize(size);
         Pageable pageable = OffsetPageRequest.of(from, size);
 
         log.info("Getting events by user ids={}", users);
@@ -368,7 +367,6 @@ public class EventServiceImpl implements EventService {
             HttpServletRequest request) {
         statsClient.saveEndpoint("ewm-main-service", request.getRequestURI(), request.getRemoteAddr());
 
-        SizeValidator.validateSize(size);
         Pageable pageable = OffsetPageRequest.of(from, size);
         checkStartIsBeforeEnd(rangeStart, rangeEnd);
 
