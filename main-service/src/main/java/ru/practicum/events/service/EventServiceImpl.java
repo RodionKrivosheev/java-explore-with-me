@@ -27,7 +27,6 @@ import ru.practicum.requests.repository.ParticipationRequestRepository;
 import ru.practicum.users.model.entity.User;
 import ru.practicum.users.service.UserService;
 import ru.practicum.util.pageable.OffsetPageRequest;
-import ru.practicum.util.validation.SizeValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -288,7 +287,6 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<EventShortDto> getAllEventsByUserId(Long userId, Integer from, Integer size) {
         log.info("Getting all events by user with id={}", userId);
-        SizeValidator.validateSize(size);
         Pageable pageable = OffsetPageRequest.of(from, size);
 
         userService.userExists(userId);

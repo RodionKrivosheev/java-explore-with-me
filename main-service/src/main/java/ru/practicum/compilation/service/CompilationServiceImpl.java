@@ -14,7 +14,6 @@ import ru.practicum.compilation.model.entity.Compilation;
 import ru.practicum.events.repository.EventRepository;
 import ru.practicum.exceptions.NotFoundException;
 import ru.practicum.util.pageable.OffsetPageRequest;
-import ru.practicum.util.validation.SizeValidator;
 
 import java.util.List;
 

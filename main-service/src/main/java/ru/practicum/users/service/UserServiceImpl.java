@@ -12,7 +12,6 @@ import ru.practicum.users.model.dto.UserDto;
 import ru.practicum.users.model.entity.User;
 import ru.practicum.users.repository.UserRepository;
 import ru.practicum.util.pageable.OffsetPageRequest;
-import ru.practicum.util.validation.SizeValidator;
 
 import java.util.List;
 
@@ -39,8 +38,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getUsersByIds(List<Long> ids, Integer from, Integer size) {
         log.info("Получение users с ids={}", ids);
-
-        SizeValidator.validateSize(size);
         Pageable pageable = OffsetPageRequest.of(from, size);
 
         List<User> users;

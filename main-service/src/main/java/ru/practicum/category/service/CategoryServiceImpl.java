@@ -15,7 +15,6 @@ import ru.practicum.events.repository.EventRepository;
 import ru.practicum.exceptions.ConflictException;
 import ru.practicum.exceptions.NotFoundException;
 import ru.practicum.util.pageable.OffsetPageRequest;
-import ru.practicum.util.validation.SizeValidator;
 
 import java.util.List;
 
@@ -38,7 +37,6 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<CategoryDto> getAllCategories(Integer from, Integer size) {
-        SizeValidator.validateSize(size);
         Pageable pageable = OffsetPageRequest.of(from, size);
 
         log.info("Получаем все категории: from={}, size={}", from, size);
