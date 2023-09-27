@@ -17,18 +17,19 @@ import java.util.List;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping("/admin/users")
 @RequiredArgsConstructor
 public class UserControllerAdmin {
 
     private final UserService userService;
 
+    @PostMapping("/admin/users")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDto createUser(@Valid @RequestBody NewUserRequest newUserRequest) {
         log.info("POST '/admin/users' создание user с body={}", newUserRequest.toString());
         return userService.createUser(newUserRequest);
     }
 
+    @GetMapping("/admin/users")
     @ResponseStatus(HttpStatus.OK)
     public List<UserDto> getAllUsersByIds(
             @RequestParam(required = false) List<Long> ids,
@@ -39,7 +40,7 @@ public class UserControllerAdmin {
         return userService.getUsersByIds(ids, from, size);
     }
 
-    @DeleteMapping("/{userId}")
+    @DeleteMapping("/admin/users/{userId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUserById(@PathVariable Long userId) {
         log.info("DELETE at '/admin/users/{}' удаление user с id={}", userId, userId);
