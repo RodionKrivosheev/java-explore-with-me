@@ -32,7 +32,7 @@ create table IF NOT EXISTS events (
     annotation         VARCHAR(2000)                           NOT NULL,
     category_id        BIGINT REFERENCES categories (id)       NOT NULL,
     created_on         TIMESTAMP                               NOT NULL,
-    description        VARCHAR(7000)                           NOT NULL,
+    description        VARCHAR(1000)                           NOT NULL,
     event_date         TIMESTAMP                               NOT NULL,
     initiator_id       BIGINT REFERENCES users (ID)            NOT NULL,
     location_id        BIGINT REFERENCES locations (ID)        NOT NULL,
@@ -40,7 +40,7 @@ create table IF NOT EXISTS events (
     participant_limit  INTEGER                                 NOT NULL,
     published_on       TIMESTAMP,
     request_moderation BOOLEAN                                 NOT NULL,
-    state              VARCHAR(255)                            NOT NULL,
+    state              VARCHAR(10)                            NOT NULL,
     title              VARCHAR(120)                            NOT NULL,
     PRIMARY KEY (id)
 );
