@@ -93,34 +93,14 @@ public class EventServiceImpl implements EventService {
             throw new ValidationRequestException("Event date must not be before 2 hours from current time.");
         }
 
-        if (updateEventUserRequest.getTitle() != null) {
-            event.setTitle(updateEventUserRequest.getTitle());
-        }
-
-        if (updateEventUserRequest.getAnnotation() != null) {
-            event.setAnnotation(updateEventUserRequest.getAnnotation());
-        }
-
-        if (updateEventUserRequest.getCategory() != null) {
-            event.setCategory(categoryService.getCategoryModelById(updateEventUserRequest.getCategory()));
-        }
-
-        if (updateEventUserRequest.getDescription() != null) {
-            event.setDescription(updateEventUserRequest.getDescription());
-        }
-
-        if (updateEventUserRequest.getEventDate() != null) {
-            event.setEventDate(updateEventUserRequest.getEventDate());
-        }
-
-        if (updateEventUserRequest.getLocation() != null) {
-            event.setLocation(locationService.getLocation(updateEventUserRequest.getLocation().getLat(),
-                    updateEventUserRequest.getLocation().getLon()));
-        }
-
-        if (updateEventUserRequest.getPaid() != null) {
-            event.setPaid(updateEventUserRequest.getPaid());
-        }
+        event.setTitle(updateEventUserRequest.getTitle());
+        event.setAnnotation(updateEventUserRequest.getAnnotation());
+        event.setCategory(categoryService.getCategoryModelById(updateEventUserRequest.getCategory()));
+        event.setDescription(updateEventUserRequest.getDescription());
+        event.setEventDate(updateEventUserRequest.getEventDate());
+        event.setLocation(locationService.getLocation(updateEventUserRequest.getLocation().getLat(),
+                updateEventUserRequest.getLocation().getLon()));
+        event.setPaid(updateEventUserRequest.getPaid());
 
         if (updateEventUserRequest.getParticipantLimit() != null) {
             event.setParticipantLimit(updateEventUserRequest.getParticipantLimit());

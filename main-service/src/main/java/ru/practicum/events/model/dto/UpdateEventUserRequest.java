@@ -7,6 +7,7 @@ import ru.practicum.location.model.entity.Location;
 
 import javax.validation.constraints.Future;
 import javax.validation.constraints.PositiveOrZero;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -20,15 +21,19 @@ public class UpdateEventUserRequest {
 
     @Size(max = 2000, min = 20)
     private String annotation;
+    @NotNull
     private Long category;
 
-    @Size(max = 7000, min = 20)
+    @Size(max = 1000, min = 20)
     private String description;
 
     @Future
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
+    @NotNull
     private LocalDateTime eventDate;
+    @NotNull
     private Location location;
+    @NotNull
     private Boolean paid;
 
     @PositiveOrZero
