@@ -21,7 +21,6 @@ public class UpdateEventUserRequest {
 
     @Size(max = 2000, min = 20)
     private String annotation;
-    @NotNull
     private Long category;
 
     @Size(max = 1000, min = 20)
@@ -29,11 +28,8 @@ public class UpdateEventUserRequest {
 
     @Future
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
-    @NotNull
     private LocalDateTime eventDate;
-    @NotNull
     private Location location;
-    @NotNull
     private Boolean paid;
 
     @PositiveOrZero
