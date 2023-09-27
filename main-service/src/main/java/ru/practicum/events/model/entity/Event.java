@@ -58,7 +58,7 @@ public class Event {
     @Column(name = "created_on", nullable = false)
     private LocalDateTime createdOn;
 
-    @Column(length = 1000, nullable = false)
+    @Column(length = 7000, nullable = false)
     private String description;
 
     @Column(name = "event_date", nullable = false)

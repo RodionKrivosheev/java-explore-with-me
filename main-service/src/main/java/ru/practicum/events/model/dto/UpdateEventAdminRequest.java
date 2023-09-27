@@ -22,7 +22,7 @@ public class UpdateEventAdminRequest {
     private String annotation;
     private Long category;
 
-    @Size(max = 1000, min = 20)
+    @Size(max = 7000, min = 20)
     private String description;
 
     @Future

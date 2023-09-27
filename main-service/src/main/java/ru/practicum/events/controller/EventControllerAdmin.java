@@ -15,7 +15,6 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping
 @AllArgsConstructor
 public class EventControllerAdmin {
 

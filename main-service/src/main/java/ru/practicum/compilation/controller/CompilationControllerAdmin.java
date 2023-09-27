@@ -15,7 +15,7 @@ import javax.validation.Valid;
 @Slf4j
 @Validated
 @RestController
-@RequestMapping
+
 @AllArgsConstructor
 public class CompilationControllerAdmin {
 
