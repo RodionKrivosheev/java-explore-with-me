@@ -42,7 +42,6 @@ public class CompilationServiceImpl implements CompilationService {
 
     @Override
     public List<CompilationDto> getCompilationsByPinned(Boolean pinned, Integer from, Integer size) {
-        SizeValidator.validateSize(size);
         Pageable pageable = OffsetPageRequest.of(from, size);
         List<Compilation> compilations;
 
