@@ -14,12 +14,13 @@ import javax.validation.Valid;
 @Slf4j
 @Validated
 @RestController
+@RequestMapping("/users/{userId}")
 @AllArgsConstructor
 public class CommentControllerPrivate {
 
     private final CommentService commentService;
 
-    @PostMapping("/users/{userId}/events/{eventId}/comments")
+    @PostMapping("/events/{eventId}/comments")
     @ResponseStatus(HttpStatus.CREATED)
     public CommentDto createComment(@PathVariable Long userId,
                                     @PathVariable Long eventId,
@@ -28,7 +29,7 @@ public class CommentControllerPrivate {
         return commentService.createComment(userId, eventId, newCommentDto);
     }
 
-    @PostMapping("/users/{userId}/comments/{commentId}/like")
+    @PostMapping("/comments/{commentId}/like")
     @ResponseStatus(HttpStatus.CREATED)
     public void addLikeToComment(@PathVariable Long userId,
                                  @PathVariable Long commentId) {
@@ -36,7 +37,7 @@ public class CommentControllerPrivate {
         commentService.addLikeToComment(userId, commentId);
     }
 
-    @PostMapping("/users/{userId}/comments/{commentId}/dislike")
+    @PostMapping("/comments/{commentId}/dislike")
     @ResponseStatus(HttpStatus.CREATED)
     public void addDislikeToComment(@PathVariable Long userId,
                                     @PathVariable Long commentId) {
@@ -44,7 +45,7 @@ public class CommentControllerPrivate {
         commentService.addDislikeToComment(userId, commentId);
     }
 
-    @PatchMapping("/users/{userId}/comments/{commentId}")
+    @PatchMapping("/comments/{commentId}")
     @ResponseStatus(HttpStatus.OK)
     public CommentDto updateCommentById(@PathVariable Long userId,
                                         @PathVariable Long commentId,
@@ -53,7 +54,7 @@ public class CommentControllerPrivate {
         return commentService.updateComment(userId, commentId, newCommentDto);
     }
 
-    @DeleteMapping("/users/{userId}/comments/{commentId}")
+    @DeleteMapping("/comments/{commentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCommentByUser(@PathVariable Long userId,
                                     @PathVariable Long commentId) {
