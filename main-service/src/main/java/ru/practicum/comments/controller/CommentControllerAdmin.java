@@ -11,19 +11,20 @@ import ru.practicum.comments.service.CommentService;
 @Slf4j
 @Validated
 @RestController
+@RequestMapping("/admin/comments")
 @AllArgsConstructor
 public class CommentControllerAdmin {
 
     private final CommentService commentService;
 
-    @GetMapping("/admin/comments/{commentId}")
+    @GetMapping("/{commentId}")
     @ResponseStatus(HttpStatus.OK)
     public CommentDto getCommentById(@PathVariable Long commentId) {
         log.info("GET at '/admin/comments/{}' чтобы получить comment с id={}", commentId, commentId);
         return commentService.getCommentById(commentId);
     }
 
-    @DeleteMapping("/admin/comments/{commentId}")
+    @DeleteMapping("/{commentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCommentByAdmin(@PathVariable Long commentId) {
         log.info("DELETE at '/admin/comments/{}' чтобы удалить comment с id={}", commentId, commentId);
