@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.comments.mapper.CommentMapper;
 import ru.practicum.comments.model.dto.CommentDto;
 import ru.practicum.comments.model.dto.NewCommentDto;
-import ru.practicum.comments.model.dto.UpdateCommentRequest;
 import ru.practicum.comments.model.entity.Comment;
 import ru.practicum.comments.model.entity.CommentDislike;
 import ru.practicum.comments.model.entity.CommentLike;
@@ -138,7 +137,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     @Transactional
-    public CommentDto updateComment(Long userId, Long commentId, UpdateCommentRequest updateCommentRequest) {
+    public CommentDto updateComment(Long userId, Long commentId, NewCommentDto newCommentDto) {
         Comment comment = getCommentModelById(commentId);
         User user = userService.getUserModelById(userId);
 
@@ -146,9 +145,9 @@ public class CommentServiceImpl implements CommentService {
             throw new ConflictException("Только author может изменить comment");
         }
 
-        log.info("Обновление comment с body={}", updateCommentRequest.toString());
-        if (updateCommentRequest.getCommentText() != null && !updateCommentRequest.getCommentText().isBlank()) {
-            comment.setCommentText(updateCommentRequest.getCommentText());
+        log.info("Обновление comment с body={}", newCommentDto.toString());
+        if (newCommentDto.getCommentText() != null && !newCommentDto.getCommentText().isBlank()) {
+            comment.setCommentText(newCommentDto.getCommentText());
         }
 
         CommentDto commentDto = CommentMapper.toCommentDto(comment);

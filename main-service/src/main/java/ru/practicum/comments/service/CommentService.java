@@ -2,7 +2,6 @@ package ru.practicum.comments.service;
 
 import ru.practicum.comments.model.dto.CommentDto;
 import ru.practicum.comments.model.dto.NewCommentDto;
-import ru.practicum.comments.model.dto.UpdateCommentRequest;
 
 import java.util.List;
 
@@ -14,7 +13,7 @@ public interface CommentService {
 
     void addDislikeToComment(Long userId, Long commentId);
 
-    CommentDto updateComment(Long userId, Long commentId, UpdateCommentRequest updateCommentRequest);
+    CommentDto updateComment(Long userId, Long commentId, NewCommentDto newCommentDto);
 
     CommentDto getCommentById(Long commentId);
 

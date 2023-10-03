@@ -14,7 +14,7 @@ import ru.practicum.comments.service.CommentService;
 @AllArgsConstructor
 public class CommentControllerAdmin {
 
-    private CommentService commentService;
+    private final CommentService commentService;
 
     @GetMapping("/admin/comments/{commentId}")
     @ResponseStatus(HttpStatus.OK)
