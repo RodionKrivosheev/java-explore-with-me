@@ -13,19 +13,20 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("/users/{userId}/requests")
 @AllArgsConstructor
 public class ParticipationRequestControllerPrivate {
 
     private final ParticipationRequestService requestService;
 
-    @GetMapping("/users/{userId}/requests")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<ParticipationRequestDto> getAll(@PathVariable Long userId) {
         log.info("GET '/users/{userId}/requests' получаем все requests по user с id={}", userId);
         return requestService.getAllRequestsByUserId(userId);
     }
 
-    @PostMapping("/users/{userId}/requests")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ParticipationRequestDto create(@PathVariable Long userId,
                                           @Valid @Positive @RequestParam Long eventId) {
@@ -33,7 +34,7 @@ public class ParticipationRequestControllerPrivate {
         return requestService.createRequest(userId, eventId);
     }
 
-    @PatchMapping("/users/{userId}/requests/{requestId}/cancel")
+    @PatchMapping("/{requestId}/cancel")
     @ResponseStatus(HttpStatus.OK)
     public ParticipationRequestDto cancel(@PathVariable Long userId,
                                           @PathVariable Long requestId) {

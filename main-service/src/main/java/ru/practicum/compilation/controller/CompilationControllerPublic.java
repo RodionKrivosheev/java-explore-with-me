@@ -16,12 +16,13 @@ import java.util.List;
 @Slf4j
 @Validated
 @RestController
+@RequestMapping("/compilations")
 @AllArgsConstructor
 public class CompilationControllerPublic {
 
     private final CompilationService compilationService;
 
-    @GetMapping("/compilations")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<CompilationDto> getCompilations(@RequestParam(required = false) Boolean pinned,
                                                 @Valid @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
@@ -31,7 +32,7 @@ public class CompilationControllerPublic {
         return compilationService.getCompilationsByPinned(pinned, from, size);
     }
 
-    @GetMapping("/compilations/{compId}")
+    @GetMapping("/{compId}")
     @ResponseStatus(HttpStatus.OK)
     public CompilationDto getCompilationById(@PathVariable Long compId) {
         log.info("GET '/compilations/{}' получить все компиляции с id={}", compId, compId);

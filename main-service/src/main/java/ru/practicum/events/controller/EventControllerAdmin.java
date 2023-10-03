@@ -15,12 +15,13 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("/admin/events")
 @AllArgsConstructor
 public class EventControllerAdmin {
 
     private final EventService eventService;
 
-    @GetMapping("/admin/events")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<EventFullDto> getEventsByUserIds(
             @RequestParam(required = false) List<Long> users,
@@ -35,7 +36,7 @@ public class EventControllerAdmin {
         return eventService.getEventsByUserIds(users, states, categories, rangeStart, rangeEnd, from, size);
     }
 
-    @PatchMapping("/admin/events/{eventId}")
+    @PatchMapping("/{eventId}")
     @ResponseStatus(HttpStatus.OK)
     public EventFullDto updateEvent(@PathVariable Long eventId,
                                @Valid @RequestBody UpdateEventAdminRequest updateEventAdminRequest) {
