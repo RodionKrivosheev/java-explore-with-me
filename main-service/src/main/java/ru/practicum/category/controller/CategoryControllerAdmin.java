@@ -14,26 +14,27 @@ import javax.validation.Valid;
 @Slf4j
 @Validated
 @RestController
+@RequestMapping("/admin/categories")
 @AllArgsConstructor
 public class CategoryControllerAdmin {
 
     private final CategoryService categoryService;
 
-    @PostMapping("/admin/categories")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CategoryDto createCategory(@Valid @RequestBody NewCategoryDto newCategoryDto) {
         log.info("POST '/admin/categories' создает категорию с body={}", newCategoryDto.toString());
         return categoryService.createCategory(newCategoryDto);
     }
 
-    @DeleteMapping("/admin/categories/{catId}")
+    @DeleteMapping("/{catId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCategory(@PathVariable Long catId) {
         log.info("DELETE '/admin/categories/{}' удаляет категорию с id={}", catId, catId);
         categoryService.deleteCategory(catId);
     }
 
-    @PatchMapping("/admin/categories/{catId}")
+    @PatchMapping("/{catId}")
     @ResponseStatus(HttpStatus.OK)
     public CategoryDto updateCategory(@PathVariable Long catId,
                                       @Valid @RequestBody CategoryDto categoryDto) {

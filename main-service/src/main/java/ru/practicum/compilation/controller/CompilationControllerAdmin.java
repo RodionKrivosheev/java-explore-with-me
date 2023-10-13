@@ -15,20 +15,20 @@ import javax.validation.Valid;
 @Slf4j
 @Validated
 @RestController
-
+@RequestMapping("/admin/compilations")
 @AllArgsConstructor
 public class CompilationControllerAdmin {
 
     private final CompilationService compilationService;
 
-    @PostMapping("/admin/compilations")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CompilationDto createCompilation(@Valid @RequestBody NewCompilationDto newCompilationDto) {
         log.info("POST '/admin/compilations' создает компиляцию с body={}", newCompilationDto.toString());
         return compilationService.createCompilation(newCompilationDto);
     }
 
-    @PatchMapping("/admin/compilations/{compId}")
+    @PatchMapping("/{compId}")
     @ResponseStatus(HttpStatus.OK)
     public CompilationDto updateCompilation(@PathVariable Long compId,
                                             @Valid @RequestBody UpdateCompilationRequest updateCompilationRequest) {
@@ -37,7 +37,7 @@ public class CompilationControllerAdmin {
         return compilationService.updateCompilation(compId, updateCompilationRequest);
     }
 
-    @DeleteMapping("/admin/compilations/{compId}")
+    @DeleteMapping("/{compId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCompilation(@PathVariable Long compId) {
         log.info("DELETE '/admin/compilations/{}'удаление компиляции с id={}", compId, compId);

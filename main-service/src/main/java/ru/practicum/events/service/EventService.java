@@ -55,4 +55,6 @@ public interface EventService {
     List<ParticipationRequestDto> getRequests(Long userId, Long eventId);
 
     EventFullDto getEventById(Long eventId, HttpServletRequest request);
+
+    void eventExists(Long eventId);
 }

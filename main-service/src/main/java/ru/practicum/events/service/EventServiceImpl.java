@@ -514,4 +514,13 @@ public class EventServiceImpl implements EventService {
             }
         }
     }
+
+    @Override
+    public void eventExists(Long eventId) {
+        log.info("Проверка на существующий event c id={}", eventId);
+
+        if (!eventRepository.existsById(eventId)) {
+            throw new NotFoundException("Event", eventId);
+        }
+    }
 }

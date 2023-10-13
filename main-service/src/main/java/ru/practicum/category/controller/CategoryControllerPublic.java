@@ -16,12 +16,13 @@ import java.util.List;
 @Slf4j
 @Validated
 @RestController
+@RequestMapping("/categories")
 @AllArgsConstructor
 public class CategoryControllerPublic {
 
     private final CategoryService categoryService;
 
-    @GetMapping("/categories")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<CategoryDto> getAllCategories(
             @Valid @PositiveOrZero @RequestParam(defaultValue = "0") Integer from,
@@ -30,7 +31,7 @@ public class CategoryControllerPublic {
         return categoryService.getAllCategories(from, size);
     }
 
-    @GetMapping("/categories/{catId}")
+    @GetMapping("/{catId}")
     @ResponseStatus(HttpStatus.OK)
     public CategoryDto getCategoryById(@PathVariable Long catId) {
         log.info("GET '/categories/{}' получает категорию с id={}", catId, catId);

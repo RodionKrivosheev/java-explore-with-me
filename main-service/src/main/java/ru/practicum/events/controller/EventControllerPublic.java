@@ -16,12 +16,13 @@ import java.util.List;
 
 @Slf4j
 @RestController
+@RequestMapping("/events")
 @AllArgsConstructor
 public class EventControllerPublic {
 
     private final EventService eventService;
 
-    @GetMapping("/events")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<EventShortDto> getAllEventsByParams(@RequestParam(required = false) String text,
                                                     @RequestParam(required = false) List<Long> categories,
@@ -39,7 +40,7 @@ public class EventControllerPublic {
         return eventService.getEventsByParams(text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, request);
     }
 
-    @GetMapping("/events/{eventId}")
+    @GetMapping("/{eventId}")
     @ResponseStatus(HttpStatus.OK)
     public EventFullDto getEventById(@PathVariable Long eventId,
                                      HttpServletRequest request) {
